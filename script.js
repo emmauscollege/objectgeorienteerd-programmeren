@@ -12,10 +12,7 @@
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
-var xPosities;
-var yPosities;
-var speedsX;
-var speedsY;
+var mensen;             // array voor de mens-objecten
 const BREEDTE = 20;
 
 
@@ -33,13 +30,14 @@ function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
-  // initialiseer waarden
+  // initialiseer 5 objecten met waarden x, y, speedX en speedY
   // deze waarden zijn een voorbeeld
   // het is prima als je hier je eigen waarden heb ingevuld 
-  xPosities = [130, 60, 470, 350, 880];
-  yPosities = [650, 400, 40, 110, 20];
-  speedsX = [2, -3, 5, -1, -1];
-  speedsY = [1, -5, -2, -3, 2];
+  mensen = [ { x: 130, y: 650, speedX: 2,  speedY: 1  },
+             { x: 60,  y: 400, speedX: -3, speedY: -5 },
+             { x: 470, y: 40,  speedX: 5,  speedY: -2 },
+             { x: 350, y: 110, speedX: -1, speedY: -3 },
+             { x: 880, y: 20,  speedX: -1, speedY: 2  } ];
 }
 
 /**
@@ -53,26 +51,27 @@ function draw() {
   
 
   // ga alle waarden in de arrays af:
-  for (var i = 0; i < xPosities.length; i++) {
+  for (var i = 0; i < mensen.length; i++) {
+    // verwijs met 'eenMens' naar de mens die bij deze
+    // iteratie van de loop hoort.
+    var eenMens = mensen[i];
+    
     // teken
     noStroke;
     fill(255, 255, 255);
-    rect(xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+    rect(eenMens.x, eenMens.y, BREEDTE, BREEDTE);
 
     // update positie
-    xPosities[i] = xPosities[i] + speedsX[i];
-    yPosities[i] = yPosities[i] + speedsY[i];
+    eenMens.x = eenMens.x + eenMens.speedX;
+    eenMens.y = eenMens.y + eenMens.speedY;
 
     // stuiter evt. tegen de kanten
-    if (xPosities[i] <= 0 || xPosities[i] + BREEDTE >= width) {
-      speedsX[i] = speedsX[i] * -1;
+    if (eenMens.x <= 0 || eenMens.x + BREEDTE >= width) {
+      eenMens.speedX = eenMens.speedX * -1;
     }
 
-    if (yPosities[i] <= 0 || yPosities[i] + BREEDTE >= height) {
-      speedsY[i] = speedsY[i] * -1;
+    if (eenMens.y <= 0 || eenMens.y + BREEDTE >= height) {
+      eenMens.speedY = eenMens.speedY * -1;
     }
   }
-
-
-
 }
