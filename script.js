@@ -1,84 +1,24 @@
-/* Game opdracht
-   Informatica - Emmauscollege Rotterdam
-   Template voor een game in JavaScript met de p5 library
-
-   Begin met dit template voor je game opdracht,
-   voeg er je eigen code aan toe.
+ /* Opdracht Objectgeorienteerd programmeren
+    Informatica - Emmauscollege Rotterdam
  */
 
-/*
- * instellingen om foutcontrole van je code beter te maken 
- */
+/* ******************************************************* */
+/* instellingen om foutcontrole van je code beter te maken */
+/* ******************************************************* */
 ///<reference path="p5.global-mode.d.ts" />
 "use strict"
+
 
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
-const SPELEN = 1;
-const GAMEOVER = 2;
-var spelStatus = SPELEN;
+var x;
+var y;
+var speedX;
+var speedY;
+const BREEDTE = 20;
 
-var spelerX = 600; // x-positie van speler
-var spelerY = 600; // y-positie van speler
 
-/* ********************************************* */
-/* functies die je gebruikt in je game           */
-/* ********************************************* */
-
-/**
- * Updatet globale variabelen met posities van speler, vijanden en kogels
- */
-var beweegAlles = function() {
-  // speler
-
-  // vijand
-
-  // kogel
-};
-
-/**
- * Checkt botsingen
- * Verwijdert neergeschoten dingen
- * Updatet globale variabelen punten en health
- */
-var verwerkBotsing = function() {
-  // botsing speler tegen vijand
-
-  // botsing kogel tegen vijand
-
-  // update punten en health
-
-};
-
-/**
- * Tekent spelscherm
- */
-var tekenAlles = function() {
-  // achtergrond
-
-  // vijand
-
-  // kogel
-
-  // speler
-  fill("white");
-  rect(spelerX - 25, spelerY - 25, 50, 50);
-  fill("black");
-  ellipse(spelerX, spelerY, 10, 10);
-
-  // punten en health
-
-};
-
-/**
- * return true als het gameover is
- * anders return false
- */
-var checkGameOver = function() {
-  // check of HP 0 is , of tijd op is, of ...
-  return false;
-};
 
 /* ********************************************* */
 /* setup() en draw() functies / hoofdprogramma   */
@@ -93,8 +33,11 @@ function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
-  // Kleur de achtergrond blauw, zodat je het kunt zien
-  background('blue');
+  // initialiseer waarden
+  x = width / 2;               // midden van de breedte van het canvas
+  y = height / 2;              // midden van de hoogte van het canvas
+  speedX = random(-5, 5);      // random waarde tussen -5 en 5
+  speedY = random(-5, 5);      // 👆
 }
 
 /**
@@ -103,16 +46,25 @@ function setup() {
  * uitgevoerd door de p5 library, nadat de setup functie klaar is
  */
 function draw() {
-  if (spelStatus === SPELEN) {
-    beweegAlles();
-    verwerkBotsing();
-    tekenAlles();
-    if (checkGameOver()) {
-      spelStatus = GAMEOVER;
-    }
-  }
-  if (spelStatus === GAMEOVER) {
-    // teken game-over scherm
+  // zwarte achtergrond
+  background(0, 0, 0);
 
+  // teken
+  noStroke;
+  fill(255, 255, 255);
+  rect(x, y, BREEDTE, BREEDTE);
+
+  // update positie
+  x = x + speedX;
+  y = y + speedY;
+
+  // stuiter evt. tegen de kanten
+  if (x <= 0 || x + BREEDTE >= width) {
+    speedX = speedX * -1;
   }
+
+  if (y <= 0 || y + BREEDTE >= height) {
+    speedY = speedY * -1;
+  }
+
 }
