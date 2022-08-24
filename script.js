@@ -133,27 +133,31 @@ class Kat {
     }
   }
 
-  isOverlappend(andereMens) {
+  isOverlappend(andereKat) {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
   
-    // zet teruggeefwaarde op true als een hoekpunt overlapt met andereMens
-    if ((this.x >= andereMens.x && this.x <= andereMens.x + andereMens.breedte  &&
-         this.y >= andereMens.y && this.y <= andereMens.y + andereMens.breedte)
-        ||
-        (this.x + this.breedte >= andereMens.x && this.x + this.breedte <= andereMens.x + andereMens.breedte  &&
-         this.y >= andereMens.y && this.y <= andereMens.y + andereMens.breedte)
-        ||
-        (this.x >= andereMens.x && this.x <= andereMens.x + andereMens.breedte  &&
-         this.y + this.breedte >= andereMens.y && this.y + this.breedte <= andereMens.y + andereMens.breedte)
-        ||
-        (this.x + this.breedte >= andereMens.x && this.x + this.breedte <= andereMens.x + andereMens.breedte  &&
-         this.y + this.breedte >= andereMens.y && this.y + this.breedte <= andereMens.y + andereMens.breedte)
-      ) {
+    // hulpvariabelen
+    var mijnLinkerrand = this.x;
+    var mijnRechterrand = this.x + this.breedte;
+    var mijnBovenrand = this.y;
+    var mijnOnderrand = this.y + this.breedte;
+
+    var andereKatLinkerrand = andereKat.x;
+    var andereKatRechterrand = andereKat.x + andereKat.breedte;
+    var andereKatBovenrand = andereKat.y;
+    var andereKatOnderrand = andereKat.y + andereKat.breedte;
+  
+    // zet teruggeefwaarde op true als er een overlap is
+    if ( mijnLinkerrand <= andereKatRechterrand &&
+         mijnRechterrand >= andereKatLinkerrand &&
+         mijnBovenrand <= andereKatOnderrand &&
+         mijnOnderrand >= andereKatBovenrand) {
+          
       overlappend = true;
     }
-  
-    // stuur de teruggeefwaarde terug
+
+  // stuur de teruggeefwaarde terug
     return overlappend;
   }
 }
