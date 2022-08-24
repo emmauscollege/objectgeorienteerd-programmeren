@@ -83,11 +83,82 @@ class Mens {
   }
 }
 
+class Kat {
+  x;
+  y;
+  speedX;
+  speedY;
+  breedte;
+
+  isBesmet;
+
+  constructor(newX, newY, newSpeedX, newSpeedY) {
+    this.x = newX;
+    this.y = newY;
+    this.speedX = newSpeedX;
+    this.speedY = newSpeedY;
+    this.breedte = 10;
+
+    this.isBesmet = false;
+  }
+
+  show() {
+    noStroke();
+    if (this.isBesmet === true) {
+      fill(255, 140, 0);   // oranje
+    }
+    else {
+      fill(0, 0, 255);     // blauw
+    }
+
+    rect(this.x, this.y, this.breedte, this.breedte);
+  }
+
+  update() {
+    // update positie
+    this.x = this.x - this.speedX;
+    this.y = this.y - this.speedY;
+
+    // stuiter tegen randen
+    if (this.x <= 0 || this.x + this.breedte >= width) {
+      this.speedX = this.speedX * -1;
+    }
+
+    if (this.y <= 0 || this.y + this.breedte >= height) {
+      this.speedY = this.speedY * -1;
+    }
+  }
+
+  isOverlappend(andereMens) {
+    // zet teruggeefwaarde standaard op false
+    var overlappend = false;
+  
+    // zet teruggeefwaarde op true als een hoekpunt overlapt met andereMens
+    if ((this.x >= andereMens.x && this.x <= andereMens.x + andereMens.breedte  &&
+         this.y >= andereMens.y && this.y <= andereMens.y + andereMens.breedte)
+        ||
+        (this.x + this.breedte >= andereMens.x && this.x + this.breedte <= andereMens.x + andereMens.breedte  &&
+         this.y >= andereMens.y && this.y <= andereMens.y + andereMens.breedte)
+        ||
+        (this.x >= andereMens.x && this.x <= andereMens.x + andereMens.breedte  &&
+         this.y + this.breedte >= andereMens.y && this.y + this.breedte <= andereMens.y + andereMens.breedte)
+        ||
+        (this.x + this.breedte >= andereMens.x && this.x + this.breedte <= andereMens.x + andereMens.breedte  &&
+         this.y + this.breedte >= andereMens.y && this.y + this.breedte <= andereMens.y + andereMens.breedte)
+      ) {
+      overlappend = true;
+    }
+  
+    // stuur de teruggeefwaarde terug
+    return overlappend;
+  }
+}
+
 
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
-var mensen = [];        // lege array voor de mens-objecten
+var actoren = [];        // lege array voor de mens-objecten
 
 
 
@@ -120,10 +191,29 @@ function setup() {
     var nieuwMens = new Mens(randomX, randomY, randomSpeedX, randomSpeedY);
     
     // voeg mensobject toe aan array
-    mensen.push(nieuwMens);
+    actoren.push(nieuwMens);
   }
 
-  mensen[0].isBesmet = true;
+  // maak 10 random katten
+  for (var teller = 0; teller < 10; teller++) {
+    // we moeten ze niet te dicht bij de rand tekenen
+    // om geen problemen met stuiteren te krijgen
+    var ruimteTotRand = 50;
+    
+    // creëer random positie en snelheid
+    var randomX = random(ruimteTotRand, width - ruimteTotRand);
+    var randomY = random(ruimteTotRand, height - ruimteTotRand);
+    var randomSpeedX = random(-2, 2);
+    var randomSpeedY = random(-2, 2);
+
+    // maak nieuw mensobject
+    var nieuweKat = new Kat(randomX, randomY, randomSpeedX, randomSpeedY);
+    
+    // voeg mensobject toe aan array
+    actoren.push(nieuweKat);
+  }
+
+  actoren[0].isBesmet = true;
 }
 
 /**
@@ -137,10 +227,10 @@ function draw() {
   
 
   // ga alle waarden in de arrays af:
-  for (var i = 0; i < mensen.length; i++) {
+  for (var i = 0; i < actoren.length; i++) {
     // verwijs met 'mens' naar het mens-object die bij deze
     // iteratie van de loop hoort.
-    var mens = mensen[i];
+    var mens = actoren[i];
     
     // teken
     mens.show();
@@ -151,11 +241,11 @@ function draw() {
 
   // controleer of mensen elkaar aanraken
   // ga alle mensen langs
-  for (var i = 0; i < mensen.length; i++) {
-    var mensA = mensen[i];
+  for (var i = 0; i < actoren.length; i++) {
+    var mensA = actoren[i];
     // ga met mensA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
-    for (var j = i+1; j < mensen.length; j++) {
-      var mensB = mensen[j];
+    for (var j = i+1; j < actoren.length; j++) {
+      var mensB = actoren[j];
       if (mensA != mensB) {
         // check overlap
         var mensenOverlappen = mensA.isOverlappend(mensB);
