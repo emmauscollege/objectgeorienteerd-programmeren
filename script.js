@@ -8,11 +8,38 @@
 ///<reference path="p5.global-mode.d.ts" />
 "use strict"
 
+/* ********************************************* */
+/* Klassendefinities                             */
+/* ********************************************* */
+
+class Mens {
+  x;
+  y;
+  speedX;
+  speedY;
+
+  besmet;
+
+  constructor(newX, newY, newSpeedX, newSpeedY) {
+    this.x = newX;
+    this.y = newY;
+    this.speedX = newSpeedX;
+    this.speedY = newSpeedY;
+
+    this.besmet = false;
+  }
+
+  update() {
+    this.x = this.x - this.speedX;
+    this.y = this.y - this.speedY;
+  }
+}
+
 
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
-var mensen;             // array voor de mens-objecten
+var mensen = [];        // lege array voor de mens-objecten
 const BREEDTE = 20;
 
 
@@ -30,14 +57,26 @@ function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
-  // initialiseer 5 objecten met waarden x, y, speedX en speedY
-  // deze waarden zijn een voorbeeld
-  // het is prima als je hier je eigen waarden heb ingevuld 
-  mensen = [ { x: 130, y: 650, speedX: 2,  speedY: 1  },
-             { x: 60,  y: 400, speedX: -3, speedY: -5 },
-             { x: 470, y: 40,  speedX: 5,  speedY: -2 },
-             { x: 350, y: 110, speedX: -1, speedY: -3 },
-             { x: 880, y: 20,  speedX: -1, speedY: 2  } ];
+  // maak 25 random mensen
+  for (var teller = 0; teller < 25; teller++) {
+    // we moeten ze niet te dicht bij de rand tekenen
+    // om geen problemen met stuiteren te krijgen
+    var ruimteTotRand = 50;
+    
+    // creëer random positie en snelheid
+    var randomX = random(ruimteTotRand, width - ruimteTotRand);
+    var randomY = random(ruimteTotRand, height - ruimteTotRand);
+    var randomSpeedX = random(-5, 5);
+    var randomSpeedY = random(-5, 5);
+
+    // maak nieuw mensobject
+    var nieuwMens = new Mens(randomX, randomY, randomSpeedX, randomSpeedY);
+    
+    // voeg mensobject toe aan array
+    mensen.push(nieuwMens);
+  }
+
+  mensen[0].besmet = true;
 }
 
 /**
