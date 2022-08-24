@@ -1,6 +1,6 @@
 {
-  "name": "De Beste Game Van De Klas",
-  "short_name": "Game",
+  "name": "Epidemie-simulator",
+  "short_name": "simulator",
   "icons": [{
     "src": "icon-512x512.png",
       "sizes": "512x512",
