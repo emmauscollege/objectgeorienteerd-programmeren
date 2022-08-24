@@ -238,32 +238,32 @@ function draw() {
   for (var i = 0; i < actoren.length; i++) {
     // verwijs met 'mens' naar het mens-object die bij deze
     // iteratie van de loop hoort.
-    var mens = actoren[i];
+    var actor = actoren[i];
     
     // teken
-    mens.show();
+    actor.show();
 
     // update positie en stuiter eventueel
-    mens.update();
+    actor.update();
   }
 
   // controleer of mensen elkaar aanraken
   // ga alle mensen langs
   for (var i = 0; i < actoren.length; i++) {
-    var mensA = actoren[i];
+    var actorA = actoren[i];
     // ga met mensA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
     for (var j = i+1; j < actoren.length; j++) {
-      var mensB = actoren[j];
-      if (mensA != mensB) {
+      var actorB = actoren[j];
+      if (actorA != actorB) {
         // check overlap
-        var mensenOverlappen = mensA.isOverlappend(mensB);
-        if (mensenOverlappen) {
+        var actorenOverlappen = actorA.isOverlappend(actorB);
+        if (actorenOverlappen) {
           // check of er een besmetting optreedt
-          if (mensA.isBesmet || mensB.isBesmet) {
+          if (actorA.isBesmet || actorB.isBesmet) {
             // als er één besmet is, wordt ze allebei besmet
             // als ze allebei besmet zijn, verandert deze code niets.
-            mensA.isBesmet = true;
-            mensB.isBesmet = true;
+            actorA.isBesmet = true;
+            actorB.isBesmet = true;
           }
         }
       }
