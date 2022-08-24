@@ -62,19 +62,23 @@ class Mens {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
   
-    // zet teruggeefwaarde op true als een hoekpunt overlapt met andereMens
-    if ((this.x >= andereMens.x && this.x <= andereMens.x + andereMens.breedte  &&
-         this.y >= andereMens.y && this.y <= andereMens.y + andereMens.breedte)
-        ||
-        (this.x + this.breedte >= andereMens.x && this.x + this.breedte <= andereMens.x + andereMens.breedte  &&
-         this.y >= andereMens.y && this.y <= andereMens.y + andereMens.breedte)
-        ||
-        (this.x >= andereMens.x && this.x <= andereMens.x + andereMens.breedte  &&
-         this.y + this.breedte >= andereMens.y && this.y + this.breedte <= andereMens.y + andereMens.breedte)
-        ||
-        (this.x + this.breedte >= andereMens.x && this.x + this.breedte <= andereMens.x + andereMens.breedte  &&
-         this.y + this.breedte >= andereMens.y && this.y + this.breedte <= andereMens.y + andereMens.breedte)
-      ) {
+    // hulpvariabelen
+    var mijnLinkerrand = this.x;
+    var mijnRechterrand = this.x + this.breedte;
+    var mijnBovenrand = this.y;
+    var mijnOnderrand = this.y + this.breedte;
+
+    var andereMensLinkerrand = andereMens.x;
+    var andereMensRechterrand = andereMens.x + andereMens.breedte;
+    var andereMensBovenrand = andereMens.y;
+    var andereMensOnderrand = andereMens.y + andereMens.breedte;
+  
+    // zet teruggeefwaarde op true als er een overlap is
+    if ( mijnLinkerrand <= andereMensRechterrand &&
+         mijnRechterrand >= andereMensLinkerrand &&
+         mijnBovenrand <= andereMensOnderrand &&
+         mijnOnderrand >= andereMensBovenrand) {
+          
       overlappend = true;
     }
   
