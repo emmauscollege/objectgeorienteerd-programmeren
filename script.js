@@ -17,6 +17,7 @@ class Mens {
   y;
   speedX;
   speedY;
+  breedte;
 
   besmet;
 
@@ -25,13 +26,36 @@ class Mens {
     this.y = newY;
     this.speedX = newSpeedX;
     this.speedY = newSpeedY;
+    this.breedte = 20;
 
     this.besmet = false;
   }
 
+  show() {
+    noStroke();
+    if (this.besmet === true) {
+      fill(255, 0, 0);      // rood
+    }
+    else {
+      fill(255, 255, 255);  // wit
+    }
+
+    rect(this.x, this.y, this.breedte, this.breedte);
+  }
+
   update() {
+    // update positie
     this.x = this.x - this.speedX;
     this.y = this.y - this.speedY;
+
+    // stuiter tegen randen
+    if (this.x <= 0 || this.x + this.breedte >= width) {
+      this.speedX = this.speedX * -1;
+    }
+
+    if (this.y <= 0 || this.y + this.breedte >= height) {
+      this.speedY = this.speedY * -1;
+    }
   }
 }
 
@@ -40,7 +64,6 @@ class Mens {
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 var mensen = [];        // lege array voor de mens-objecten
-const BREEDTE = 20;
 
 
 
@@ -91,26 +114,14 @@ function draw() {
 
   // ga alle waarden in de arrays af:
   for (var i = 0; i < mensen.length; i++) {
-    // verwijs met 'eenMens' naar de mens die bij deze
+    // verwijs met 'mens' naar het mens-object die bij deze
     // iteratie van de loop hoort.
-    var eenMens = mensen[i];
+    var mens = mensen[i];
     
     // teken
-    noStroke;
-    fill(255, 255, 255);
-    rect(eenMens.x, eenMens.y, BREEDTE, BREEDTE);
+    mens.show();
 
-    // update positie
-    eenMens.x = eenMens.x + eenMens.speedX;
-    eenMens.y = eenMens.y + eenMens.speedY;
-
-    // stuiter evt. tegen de kanten
-    if (eenMens.x <= 0 || eenMens.x + BREEDTE >= width) {
-      eenMens.speedX = eenMens.speedX * -1;
-    }
-
-    if (eenMens.y <= 0 || eenMens.y + BREEDTE >= height) {
-      eenMens.speedY = eenMens.speedY * -1;
-    }
+    // update positie en stuiter eventueel
+    mens.update();
   }
 }
