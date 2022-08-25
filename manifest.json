@@ -2,7 +2,7 @@
   "name": "Epidemie-simulator",
   "short_name": "simulator",
   "icons": [{
-    "src": "icon-512x512.png",
+    "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }],
