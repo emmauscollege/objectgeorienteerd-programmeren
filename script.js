@@ -165,9 +165,12 @@ class Kat {
           this.y + this.breedte >= andereMens.y &&
           this.y + this.breedte <= andereMens.y + andereMens.breedte)
        ) {
-          
+        
       overlappend = true;
     }
+  
+    // stuur de teruggeefwaarde terug
+    return overlappend;
 }
 
 
