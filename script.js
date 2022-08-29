@@ -62,28 +62,32 @@ class Mens {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
   
-    // hulpvariabelen
-    var mijnLinkerrand = this.x;
-    var mijnRechterrand = this.x + this.breedte;
-    var mijnBovenrand = this.y;
-    var mijnOnderrand = this.y + this.breedte;
-
-    var andereMensLinkerrand = andereMens.x;
-    var andereMensRechterrand = andereMens.x + andereMens.breedte;
-    var andereMensBovenrand = andereMens.y;
-    var andereMensOnderrand = andereMens.y + andereMens.breedte;
-  
     // zet teruggeefwaarde op true als er een overlap is
-    if ( mijnLinkerrand <= andereMensRechterrand &&
-         mijnRechterrand >= andereMensLinkerrand &&
-         mijnBovenrand <= andereMensOnderrand &&
-         mijnOnderrand >= andereMensBovenrand) {
-          
+    if ( // valt linkerbovenhoek binnen randen van 'andereMens'?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y >= andereMens.y &&
+          this.y <= andereMens.y + andereMens.breedte)
+        ||
+         // OF valt rechterbovenhoek binnen randen van 'andereMens'?
+         (this.x + this.breedte >= andereMens.x &&
+          this.x + this.breedte <= andereMens.x + andereMens.breedte &&
+          this.y >= andereMens.y &&
+          this.y <= andereMens.y + andereMens.breedte)
+        || // OF de linkeronderhoek?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y + this.breedte >= andereMens.y &&
+          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+        || // OF de hoek rechtsonder?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y + this.breedte >= andereMens.y &&
+          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+       ) {
+
       overlappend = true;
     }
-  
-    // stuur de teruggeefwaarde terug
-    return overlappend;
   }
 }
 
@@ -158,7 +162,7 @@ function draw() {
   for (var i = 0; i < mensen.length; i++) {
     var mensA = mensen[i];
     // ga met mensA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
-    for (var j = i+1; j < mensen.length; j++) {
+    for (var j = 0; j < mensen.length; j++) {
       var mensB = mensen[j];
       if (mensA != mensB) {
         // check overlap
