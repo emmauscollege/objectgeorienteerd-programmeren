@@ -87,8 +87,9 @@ class Mens {
        ) {
 
       overlappend = true;
-      return overlappend;
     }
+
+    return overlappend;
   }
 }
 
