@@ -62,22 +62,28 @@ class Mens {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
   
-    // hulpvariabelen
-    var mijnLinkerrand = this.x;
-    var mijnRechterrand = this.x + this.breedte;
-    var mijnBovenrand = this.y;
-    var mijnOnderrand = this.y + this.breedte;
-
-    var andereMensLinkerrand = andereMens.x;
-    var andereMensRechterrand = andereMens.x + andereMens.breedte;
-    var andereMensBovenrand = andereMens.y;
-    var andereMensOnderrand = andereMens.y + andereMens.breedte;
-  
-    // zet teruggeefwaarde op true als er een overlap is
-    if ( mijnLinkerrand <= andereMensRechterrand &&
-         mijnRechterrand >= andereMensLinkerrand &&
-         mijnBovenrand <= andereMensOnderrand &&
-         mijnOnderrand >= andereMensBovenrand) {
+    if ( // valt linkerbovenhoek binnen randen van 'andereMens'?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y >= andereMens.y &&
+          this.y <= andereMens.y + andereMens.breedte)
+        ||
+         // OF valt rechterbovenhoek binnen randen van 'andereMens'?
+         (this.x + this.breedte >= andereMens.x &&
+          this.x + this.breedte <= andereMens.x + andereMens.breedte &&
+          this.y >= andereMens.y &&
+          this.y <= andereMens.y + andereMens.breedte)
+        || // OF de linkeronderhoek?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y + this.breedte >= andereMens.y &&
+          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+        || // OF de hoek rechtsonder?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y + this.breedte >= andereMens.y &&
+          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+       ) {
           
       overlappend = true;
     }
@@ -137,29 +143,31 @@ class Kat {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
   
-    // hulpvariabelen
-    var mijnLinkerrand = this.x;
-    var mijnRechterrand = this.x + this.breedte;
-    var mijnBovenrand = this.y;
-    var mijnOnderrand = this.y + this.breedte;
-
-    var andereKatLinkerrand = andereKat.x;
-    var andereKatRechterrand = andereKat.x + andereKat.breedte;
-    var andereKatBovenrand = andereKat.y;
-    var andereKatOnderrand = andereKat.y + andereKat.breedte;
-  
-    // zet teruggeefwaarde op true als er een overlap is
-    if ( mijnLinkerrand <= andereKatRechterrand &&
-         mijnRechterrand >= andereKatLinkerrand &&
-         mijnBovenrand <= andereKatOnderrand &&
-         mijnOnderrand >= andereKatBovenrand) {
+    if ( // valt linkerbovenhoek binnen randen van 'andereMens'?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y >= andereMens.y &&
+          this.y <= andereMens.y + andereMens.breedte)
+        ||
+         // OF valt rechterbovenhoek binnen randen van 'andereMens'?
+         (this.x + this.breedte >= andereMens.x &&
+          this.x + this.breedte <= andereMens.x + andereMens.breedte &&
+          this.y >= andereMens.y &&
+          this.y <= andereMens.y + andereMens.breedte)
+        || // OF de linkeronderhoek?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y + this.breedte >= andereMens.y &&
+          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+        || // OF de hoek rechtsonder?
+         (this.x >= andereMens.x &&
+          this.x <= andereMens.x + andereMens.breedte &&
+          this.y + this.breedte >= andereMens.y &&
+          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+       ) {
           
       overlappend = true;
     }
-
-  // stuur de teruggeefwaarde terug
-    return overlappend;
-  }
 }
 
 
