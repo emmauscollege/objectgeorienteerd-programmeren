@@ -86,6 +86,7 @@ class Mens {
        ) {
           
       overlappend = true;
+      return overlappend;
     }
   
     // stuur de teruggeefwaarde terug
