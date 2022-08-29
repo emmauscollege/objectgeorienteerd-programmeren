@@ -143,27 +143,27 @@ class Kat {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
   
-    if ( // valt linkerbovenhoek binnen randen van 'andereMens'?
-         (this.x >= andereMens.x &&
-          this.x <= andereMens.x + andereMens.breedte &&
-          this.y >= andereMens.y &&
-          this.y <= andereMens.y + andereMens.breedte)
+    if ( // valt linkerbovenhoek binnen randen van 'andereKat'?
+         (this.x >= andereKat.x &&
+          this.x <= andereKat.x + andereKat.breedte &&
+          this.y >= andereKat.y &&
+          this.y <= andereKat.y + andereKat.breedte)
         ||
-         // OF valt rechterbovenhoek binnen randen van 'andereMens'?
-         (this.x + this.breedte >= andereMens.x &&
-          this.x + this.breedte <= andereMens.x + andereMens.breedte &&
-          this.y >= andereMens.y &&
-          this.y <= andereMens.y + andereMens.breedte)
+         // OF valt rechterbovenhoek binnen randen van 'andereKat'?
+         (this.x + this.breedte >= andereKat.x &&
+          this.x + this.breedte <= andereKat.x + andereKat.breedte &&
+          this.y >= andereKat.y &&
+          this.y <= andereKat.y + andereKat.breedte)
         || // OF de linkeronderhoek?
-         (this.x >= andereMens.x &&
-          this.x <= andereMens.x + andereMens.breedte &&
-          this.y + this.breedte >= andereMens.y &&
-          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+         (this.x >= andereKat.x &&
+          this.x <= andereKat.x + andereKat.breedte &&
+          this.y + this.breedte >= andereKat.y &&
+          this.y + this.breedte <= andereKat.y + andereKat.breedte)
         || // OF de hoek rechtsonder?
-         (this.x >= andereMens.x &&
-          this.x <= andereMens.x + andereMens.breedte &&
-          this.y + this.breedte >= andereMens.y &&
-          this.y + this.breedte <= andereMens.y + andereMens.breedte)
+         (this.x >= andereKat.x &&
+          this.x <= andereKat.x + andereKat.breedte &&
+          this.y + this.breedte >= andereKat.y &&
+          this.y + this.breedte <= andereKat.y + andereKat.breedte)
        ) {
         
       overlappend = true;
@@ -259,11 +259,11 @@ function draw() {
     actor.update();
   }
 
-  // controleer of mensen elkaar aanraken
-  // ga alle mensen langs
+  // controleer of actoren elkaar aanraken
+  // ga alle actoren langs
   for (var i = 0; i < actoren.length; i++) {
     var actorA = actoren[i];
-    // ga met mensA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
+    // ga met actorA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
     for (var j = i+1; j < actoren.length; j++) {
       var actorB = actoren[j];
       if (actorA != actorB) {
