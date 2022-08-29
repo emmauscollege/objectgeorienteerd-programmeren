@@ -171,6 +171,7 @@ class Kat {
   
     // stuur de teruggeefwaarde terug
     return overlappend;
+  }
 }
 
 
