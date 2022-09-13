@@ -266,7 +266,7 @@ function draw() {
   for (var i = 0; i < actoren.length; i++) {
     var actorA = actoren[i];
     // ga met actorA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
-    for (var j = i+1; j < actoren.length; j++) {
+    for (var j = i + 1; j < actoren.length; j++) {
       var actorB = actoren[j];
       if (actorA != actorB) {
         // check overlap
