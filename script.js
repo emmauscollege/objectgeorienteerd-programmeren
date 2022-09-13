@@ -216,7 +216,7 @@ function setup() {
     actoren.push(nieuweKat);
   }
 
-  // maak 1 dokter
+  // maak 1 dokter (random waarden zijn nog mooier)
   actoren.push(new Dokter(width / 2, height / 2, 3, 5));
 
   actoren[0].isBesmet = true;
