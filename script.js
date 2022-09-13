@@ -169,6 +169,19 @@ class Kat extends Actor {
   }
 }
 
+class Dokter extends Mens {
+  show() {
+    // teken zoals de klasse Mens dat doet
+    super.show();
+
+    // en daarna nog een rood kruis
+    strokeWeight(5);
+    stroke(255, 0, 0);    // rood
+    line(this.x + this.breedte / 2, this.y, this.x + this.breedte / 2, this.y + this.breedte);
+    line(this.x, this.y + this.breedte / 2, this.x + this.breedte, this.y + this.breedte / 2);
+  }
+}
+
 
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
@@ -228,7 +241,10 @@ function setup() {
     actoren.push(nieuweKat);
   }
 
-  actoren[0].besmet();
+  // maak 1 dokter (random waarden zijn nog mooier)
+  actoren.push(new Dokter(width / 2, height / 2, 3, 5));
+
+  actoren[0].isBesmet = true;
 }
 
 /**
