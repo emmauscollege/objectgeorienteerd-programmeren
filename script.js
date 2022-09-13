@@ -20,13 +20,14 @@ class Actor {
   breedte;
 
   isBesmet;
+  besmettelijkheidsTeller;
 
   /**
    * constructor van abstracte klasse
    * initialiseert de attributen x, y, speedX, speedY
    * 
    * LET OP: subklassen MOETEN zelf this.breedte
-   * in de constructor definiëren.
+   * en this.besmettelijkheidsTeller in hun constructor definiëren.
    */
   constructor(x, y, speedX, speedY) {
     this.x = x;
@@ -35,12 +36,21 @@ class Actor {
     this.speedY = speedY;
 
     this.isBesmet = false;
+    this.besmettelijkheidsTeller = 0;
+
   }
   /**
    * show is een abstracte methode
    * moet worden overschreven door subklassen
    */
-  show() {}
+  show() { }
+
+  /**
+   * abstracte methode, moet worden overschreven door subklassen
+   * zet isBesmet op true
+   * zet besmettelijkheidsTeller op juiste startwaarde
+   */
+  besmet() { }
 
   /**
    * update de positie en 'spiegelt' de snelheden
@@ -59,6 +69,11 @@ class Actor {
     if (this.y <= 0 || this.y + this.breedte >= height) {
       this.speedY = this.speedY * -1;
     }
+
+    this.besmettelijkheidsTeller--;
+    if (this.besmettelijkheidsTeller === 0) {
+      this.isBesmet = false;
+    }
   }
 
   /**
@@ -68,33 +83,33 @@ class Actor {
   isOverlappend(andereActor) {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
-  
+
     if ( // valt linkerbovenhoek binnen randen van 'andereActor'?
-         (this.x >= andereActor.x &&
-          this.x <= andereActor.x + andereActor.breedte &&
-          this.y >= andereActor.y &&
-          this.y <= andereActor.y + andereActor.breedte)
-        ||
-         // OF valt rechterbovenhoek binnen randen van 'andereActor'?
-         (this.x + this.breedte >= andereActor.x &&
-          this.x + this.breedte <= andereActor.x + andereActor.breedte &&
-          this.y >= andereActor.y &&
-          this.y <= andereActor.y + andereActor.breedte)
-        || // OF de linkeronderhoek?
-         (this.x >= andereActor.x &&
-          this.x <= andereActor.x + andereActor.breedte &&
-          this.y + this.breedte >= andereActor.y &&
-          this.y + this.breedte <= andereActor.y + andereActor.breedte)
-        || // OF de hoek rechtsonder?
-         (this.x >= andereActor.x &&
-          this.x <= andereActor.x + andereActor.breedte &&
-          this.y + this.breedte >= andereActor.y &&
-          this.y + this.breedte <= andereActor.y + andereActor.breedte)
-       ) {
-          
+      (this.x >= andereActor.x &&
+        this.x <= andereActor.x + andereActor.breedte &&
+        this.y >= andereActor.y &&
+        this.y <= andereActor.y + andereActor.breedte)
+      ||
+      // OF valt rechterbovenhoek binnen randen van 'andereActor'?
+      (this.x + this.breedte >= andereActor.x &&
+        this.x + this.breedte <= andereActor.x + andereActor.breedte &&
+        this.y >= andereActor.y &&
+        this.y <= andereActor.y + andereActor.breedte)
+      || // OF de linkeronderhoek?
+      (this.x >= andereActor.x &&
+        this.x <= andereActor.x + andereActor.breedte &&
+        this.y + this.breedte >= andereActor.y &&
+        this.y + this.breedte <= andereActor.y + andereActor.breedte)
+      || // OF de hoek rechtsonder?
+      (this.x >= andereActor.x &&
+        this.x <= andereActor.x + andereActor.breedte &&
+        this.y + this.breedte >= andereActor.y &&
+        this.y + this.breedte <= andereActor.y + andereActor.breedte)
+    ) {
+
       overlappend = true;
     }
-  
+
     // stuur de teruggeefwaarde terug
     return overlappend;
   }
@@ -120,6 +135,11 @@ class Mens extends Actor {
 
     rect(this.x, this.y, this.breedte, this.breedte);
   }
+
+  besmet() {
+    this.besmettelijkheidsTeller = 400;
+    this.isBesmet = true;
+  }
 }
 
 class Kat extends Actor {
@@ -141,6 +161,11 @@ class Kat extends Actor {
     }
 
     rect(this.x, this.y, this.breedte, this.breedte);
+  }
+
+  besmet() {
+    this.besmettelijkheidsTeller = 200;
+    this.isBesmet = true;
   }
 }
 
@@ -170,7 +195,7 @@ function setup() {
     // we moeten ze niet te dicht bij de rand tekenen
     // om geen problemen met stuiteren te krijgen
     var ruimteTotRand = 50;
-    
+
     // creëer random positie en snelheid
     var randomX = random(ruimteTotRand, width - ruimteTotRand);
     var randomY = random(ruimteTotRand, height - ruimteTotRand);
@@ -179,7 +204,7 @@ function setup() {
 
     // maak nieuw mensobject
     var nieuwMens = new Mens(randomX, randomY, randomSpeedX, randomSpeedY);
-    
+
     // voeg mensobject toe aan array
     actoren.push(nieuwMens);
   }
@@ -189,7 +214,7 @@ function setup() {
     // we moeten ze niet te dicht bij de rand tekenen
     // om geen problemen met stuiteren te krijgen
     var ruimteTotRand = 50;
-    
+
     // creëer random positie en snelheid
     var randomX = random(ruimteTotRand, width - ruimteTotRand);
     var randomY = random(ruimteTotRand, height - ruimteTotRand);
@@ -198,12 +223,12 @@ function setup() {
 
     // maak nieuw mensobject
     var nieuweKat = new Kat(randomX, randomY, randomSpeedX, randomSpeedY);
-    
+
     // voeg mensobject toe aan array
     actoren.push(nieuweKat);
   }
 
-  actoren[0].isBesmet = true;
+  actoren[0].besmet();
 }
 
 /**
@@ -214,7 +239,7 @@ function setup() {
 function draw() {
   // zwarte achtergrond
   background(0, 0, 0);
-  
+
   var aantalBesmet = 0;
   var aantalOnbesmet = 0;
   // ga alle waarden in de arrays af:
@@ -222,7 +247,7 @@ function draw() {
     // verwijs met 'mens' naar het mens-object die bij deze
     // iteratie van de loop hoort.
     var actor = actoren[i];
-    
+
     // teken
     actor.show();
 
@@ -249,18 +274,23 @@ function draw() {
   for (var i = 0; i < actoren.length; i++) {
     var actorA = actoren[i];
     // ga met actorA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
-    for (var j = i+1; j < actoren.length; j++) {
+    for (var j = 0; j < actoren.length; j++) {
       var actorB = actoren[j];
       if (actorA != actorB) {
         // check overlap
         var actorenOverlappen = actorA.isOverlappend(actorB);
         if (actorenOverlappen) {
           // check of er een besmetting optreedt
-          if (actorA.isBesmet || actorB.isBesmet) {
-            // als er één besmet is, wordt ze allebei besmet
-            // als ze allebei besmet zijn, verandert deze code niets.
-            actorA.isBesmet = true;
-            actorB.isBesmet = true;
+          // dit moet los gecontroleerd worden
+          // anders wordt ook de besmettelijkheidsteller
+          // van de besmetter weer teruggezet. Dat zou
+          // onlogisch zijn. Twee besmette actoren kunnen elkaar niet
+          // opnieuw besmetten.
+          if (actorA.isBesmet && !actorB.isBesmet) {
+            actorB.besmet();
+          }
+          else if (actorB.isBesmet && !actorA.isBesmet) {
+            actorA.besmet();
           }
         }
       }
