@@ -215,7 +215,8 @@ function draw() {
   // zwarte achtergrond
   background(0, 0, 0);
   
-
+  var aantalBesmet = 0;
+  var aantalOnbesmet = 0;
   // ga alle waarden in de arrays af:
   for (var i = 0; i < actoren.length; i++) {
     // verwijs met 'mens' naar het mens-object die bij deze
@@ -227,7 +228,21 @@ function draw() {
 
     // update positie en stuiter eventueel
     actor.update();
+
+    // kijk of actor besmet is en werk de aantallen bij
+    if (actor.isBesmet) {
+      aantalBesmet = aantalBesmet + 1;
+    }
+    else {
+      aantalOnbesmet = aantalOnbesmet + 1;
+    }
   }
+
+  // teken de statiestieken
+  textSize(25);           // niet te klein
+  fill(128, 128, 128);    // grijs
+  text("Besmet: " + aantalBesmet, 1100, 30);
+  text("Onbesmet: " + aantalOnbesmet, 1100, 60);
 
   // controleer of actoren elkaar aanraken
   // ga alle actoren langs
