@@ -297,17 +297,25 @@ function draw() {
         // check overlap
         var actorenOverlappen = actorA.isOverlappend(actorB);
         if (actorenOverlappen) {
-          // check of er een besmetting optreedt
-          // dit moet los gecontroleerd worden
-          // anders wordt ook de besmettelijkheidsteller
-          // van de besmetter weer teruggezet. Dat zou
-          // onlogisch zijn. Twee besmette actoren kunnen elkaar niet
-          // opnieuw besmetten.
-          if (actorA.isBesmet && !actorB.isBesmet) {
-            actorB.besmet();
+          if (actorA instanceof Dokter || actorB instanceof Dokter) {
+            // minimaal één van de mensen is dokter,
+            // dus ze worden / blijven beide gezond
+            actorA.isBesmet = false;
+            actorB.isBesmet = false;
           }
-          else if (actorB.isBesmet && !actorA.isBesmet) {
-            actorA.besmet();
+          else {
+            // check of er een besmetting optreedt
+            // dit moet los gecontroleerd worden
+            // anders wordt ook de besmettelijkheidsteller
+            // van de besmetter weer teruggezet. Dat zou
+            // onlogisch zijn. Twee besmette actoren kunnen elkaar niet
+            // opnieuw besmetten.
+            if (actorA.isBesmet && !actorB.isBesmet) {
+              actorB.besmet();
+            }
+            else if (actorB.isBesmet && !actorA.isBesmet) {
+              actorA.besmet();
+            }
           }
         }
       }
