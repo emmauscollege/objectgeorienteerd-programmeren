@@ -40,7 +40,7 @@ class Actor {
    * show is een abstracte methode
    * moet worden overschreven door subklassen
    */
-  show() {}
+  show() { }
 
   /**
    * update de positie en 'spiegelt' de snelheden
@@ -68,33 +68,33 @@ class Actor {
   isOverlappend(andereActor) {
     // zet teruggeefwaarde standaard op false
     var overlappend = false;
-  
+
     if ( // valt linkerbovenhoek binnen randen van 'andereActor'?
-         (this.x >= andereActor.x &&
-          this.x <= andereActor.x + andereActor.breedte &&
-          this.y >= andereActor.y &&
-          this.y <= andereActor.y + andereActor.breedte)
-        ||
-         // OF valt rechterbovenhoek binnen randen van 'andereActor'?
-         (this.x + this.breedte >= andereActor.x &&
-          this.x + this.breedte <= andereActor.x + andereActor.breedte &&
-          this.y >= andereActor.y &&
-          this.y <= andereActor.y + andereActor.breedte)
-        || // OF de linkeronderhoek?
-         (this.x >= andereActor.x &&
-          this.x <= andereActor.x + andereActor.breedte &&
-          this.y + this.breedte >= andereActor.y &&
-          this.y + this.breedte <= andereActor.y + andereActor.breedte)
-        || // OF de hoek rechtsonder?
-         (this.x >= andereActor.x &&
-          this.x <= andereActor.x + andereActor.breedte &&
-          this.y + this.breedte >= andereActor.y &&
-          this.y + this.breedte <= andereActor.y + andereActor.breedte)
-       ) {
-          
+      (this.x >= andereActor.x &&
+        this.x <= andereActor.x + andereActor.breedte &&
+        this.y >= andereActor.y &&
+        this.y <= andereActor.y + andereActor.breedte)
+      ||
+      // OF valt rechterbovenhoek binnen randen van 'andereActor'?
+      (this.x + this.breedte >= andereActor.x &&
+        this.x + this.breedte <= andereActor.x + andereActor.breedte &&
+        this.y >= andereActor.y &&
+        this.y <= andereActor.y + andereActor.breedte)
+      || // OF de linkeronderhoek?
+      (this.x >= andereActor.x &&
+        this.x <= andereActor.x + andereActor.breedte &&
+        this.y + this.breedte >= andereActor.y &&
+        this.y + this.breedte <= andereActor.y + andereActor.breedte)
+      || // OF de hoek rechtsonder?
+      (this.x >= andereActor.x &&
+        this.x <= andereActor.x + andereActor.breedte &&
+        this.y + this.breedte >= andereActor.y &&
+        this.y + this.breedte <= andereActor.y + andereActor.breedte)
+    ) {
+
       overlappend = true;
     }
-  
+
     // stuur de teruggeefwaarde terug
     return overlappend;
   }
@@ -144,6 +144,19 @@ class Kat extends Actor {
   }
 }
 
+class Dokter extends Mens {
+  show() {
+    // teken zoals de klasse Mens dat doet
+    super.show();
+
+    // en daarna nog een rood kruis
+    strokeWeight(5);
+    stroke(255, 0, 0);    // rood
+    line(this.x + this.breedte / 2, this.y, this.x + this.breedte / 2, this.y + this.breedte);
+    line(this.x, this.y + this.breedte / 2, this.x + this.breedte, this.y + this.breedte / 2);
+  }
+}
+
 
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
@@ -170,7 +183,7 @@ function setup() {
     // we moeten ze niet te dicht bij de rand tekenen
     // om geen problemen met stuiteren te krijgen
     var ruimteTotRand = 50;
-    
+
     // creëer random positie en snelheid
     var randomX = random(ruimteTotRand, width - ruimteTotRand);
     var randomY = random(ruimteTotRand, height - ruimteTotRand);
@@ -179,7 +192,7 @@ function setup() {
 
     // maak nieuw mensobject
     var nieuwMens = new Mens(randomX, randomY, randomSpeedX, randomSpeedY);
-    
+
     // voeg mensobject toe aan array
     actoren.push(nieuwMens);
   }
@@ -189,7 +202,7 @@ function setup() {
     // we moeten ze niet te dicht bij de rand tekenen
     // om geen problemen met stuiteren te krijgen
     var ruimteTotRand = 50;
-    
+
     // creëer random positie en snelheid
     var randomX = random(ruimteTotRand, width - ruimteTotRand);
     var randomY = random(ruimteTotRand, height - ruimteTotRand);
@@ -198,10 +211,13 @@ function setup() {
 
     // maak nieuw mensobject
     var nieuweKat = new Kat(randomX, randomY, randomSpeedX, randomSpeedY);
-    
+
     // voeg mensobject toe aan array
     actoren.push(nieuweKat);
   }
+
+  // maak 1 dokter
+  actoren.push(new Dokter(width / 2, height / 2, 3, 5));
 
   actoren[0].isBesmet = true;
 }
@@ -214,42 +230,27 @@ function setup() {
 function draw() {
   // zwarte achtergrond
   background(0, 0, 0);
-  
-  var aantalBesmet = 0;
-  var aantalOnbesmet = 0;
+
+
   // ga alle waarden in de arrays af:
   for (var i = 0; i < actoren.length; i++) {
     // verwijs met 'mens' naar het mens-object die bij deze
     // iteratie van de loop hoort.
     var actor = actoren[i];
-    
+
     // teken
     actor.show();
 
     // update positie en stuiter eventueel
     actor.update();
-
-    // kijk of actor besmet is en werk de aantallen bij
-    if (actor.isBesmet) {
-      aantalBesmet = aantalBesmet + 1;
-    }
-    else {
-      aantalOnbesmet = aantalOnbesmet + 1;
-    }
   }
-
-  // teken de statiestieken
-  textSize(25);           // niet te klein
-  fill(128, 128, 128);    // grijs
-  text("Besmet: " + aantalBesmet, 1100, 30);
-  text("Onbesmet: " + aantalOnbesmet, 1100, 60);
 
   // controleer of actoren elkaar aanraken
   // ga alle actoren langs
   for (var i = 0; i < actoren.length; i++) {
     var actorA = actoren[i];
     // ga met actorA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
-    for (var j = i+1; j < actoren.length; j++) {
+    for (var j = i + 1; j < actoren.length; j++) {
       var actorB = actoren[j];
       if (actorA != actorB) {
         // check overlap
@@ -257,10 +258,19 @@ function draw() {
         if (actorenOverlappen) {
           // check of er een besmetting optreedt
           if (actorA.isBesmet || actorB.isBesmet) {
-            // als er één besmet is, wordt ze allebei besmet
-            // als ze allebei besmet zijn, verandert deze code niets.
-            actorA.isBesmet = true;
-            actorB.isBesmet = true;
+            if (actorA instanceof Dokter || actorB instanceof Dokter) {
+              // minimaal één van de mensen is dokter,
+              // dus ze worden / blijven beide gezond
+              actorA.isBesmet = false;
+              actorB.isBesmet = false;
+            }
+            else {
+              // geen van de mensen is dokter, dus
+              // als er één besmet is, wordt ze allebei besmet
+              // als ze allebei besmet zijn, verandert deze code niets.
+              actorA.isBesmet = true;
+              actorB.isBesmet = true;
+            }
           }
         }
       }
