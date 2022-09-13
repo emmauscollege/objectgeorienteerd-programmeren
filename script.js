@@ -19,26 +19,17 @@ class Mens {
   speedY;
   breedte;
 
-  isBesmet;
-
   constructor(newX, newY, newSpeedX, newSpeedY) {
     this.x = newX;
     this.y = newY;
     this.speedX = newSpeedX;
     this.speedY = newSpeedY;
     this.breedte = 20;
-
-    this.isBesmet = false;
   }
 
   show() {
     noStroke();
-    if (this.isBesmet === true) {
-      fill(255, 0, 0);      // rood
-    }
-    else {
-      fill(255, 255, 255);  // wit
-    }
+    fill(255, 255, 255);  // wit
 
     rect(this.x, this.y, this.breedte, this.breedte);
   }
@@ -98,8 +89,6 @@ function setup() {
     // voeg mensobject toe aan array
     mensen.push(nieuwMens);
   }
-
-  mensen[0].isBesmet = true;
 }
 
 /**
