@@ -255,6 +255,7 @@ function draw() {
   }
 
   // teken de statiestieken
+  noStroke();
   textSize(25);           // niet te klein
   fill(128, 128, 128);    // grijs
   text("Besmet: " + aantalBesmet, 1100, 30);
